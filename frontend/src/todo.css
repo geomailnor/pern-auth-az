@@ -1,0 +1,241 @@
+:root {
+  --primary: #5e6ad2;
+  --primary-hover: #4a56c4;
+  --text: #2c3e50;
+  --text-light: #8b8fa7;
+  --card: #ffffff;
+  --transition: all 0.3s ease;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
+}
+
+/* ===== Форма за добавяне ===== */
+.input-bel-frm {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 25px;
+  column-gap: 10px;
+}
+
+.input {
+  flex: 1;
+  font-size: 1rem;
+  padding: 5px 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  outline: none;
+  transition: var(--transition);
+  height: 2.5rem;
+}
+
+.input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px 2px rgba(94, 106, 210, 0.1);
+}
+
+.input-btn {
+  display: flex;
+  align-items: center;
+  /* column-gap: 8px; */
+  color: var(--card);
+  border: none;
+  background-color: var(--primary);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  height: 2.5rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.input-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(94, 106, 210, 0.3);
+}
+
+.input-btn:active {
+  transform: scale(0.97);
+}
+
+/* ===== ПРЕМАХВАНЕ НА СТАНДАРТНИЯ OUTLINE ===== */
+:focus-visible {
+  outline: none;
+}
+
+.input-btn:focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(94, 106, 210, 0.3);
+}
+
+.todo-list {
+  width: 70%;
+}
+
+.todo-header,
+.todo-row {
+  font-size: 1.1rem;
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) minmax(86px, 100px) minmax(86px, 100px);
+  column-gap: 12px;
+  align-items: center;
+}
+
+.todo-header {
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #333;
+  padding: 10px 12px;
+}
+
+.todo-header>div:first-child,
+.todo-row>div:first-child {
+  text-align: left;
+}
+
+.todo-header>div:nth-child(2),
+.todo-header>div:nth-child(3) {
+  text-align: center;
+}
+
+.todo-row>div:nth-child(2),
+.todo-row>div:nth-child(3) {
+  display: flex;
+  justify-content: center;
+}
+
+.todo-row {
+  overflow: hidden;
+  padding: 8px 12px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* ------------------------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  background: rgba(0, 0, 0, .4);
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-frm {
+  position: relative;
+  background: var(--card);
+  padding: 20px;
+  border-radius: 8px;
+  width: 60%;
+  min-width: 350px;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.5);
+  border: 1px solid #e8e8e8;
+  transition: var(--transition);
+}
+
+.input-modal {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* ===== БУТОНИ ===== */
+.del-btn,
+.edit-btn {
+  width: 100%;
+  padding: 6px 14px;
+  margin: 0 5px;
+  background: transparent;
+  color: rgb(180, 44, 44);
+  border: 1px solid rgb(229, 168, 168);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.edit-btn {
+  color: rgb(159, 108, 0);
+  border: 1px solid rgb(222, 173, 29);
+}
+
+.del-btn:hover {
+  background: #f6e8e8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+.edit-btn:hover {
+  background: rgb(255, 236, 196);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(159, 108, 0, 0.2);
+}
+
+.del-btn:active,
+.edit-btn:active {
+  transform: scale(0.97);
+}
+
+.modal-btns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.modal-x-btn {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  line-height: 1;
+  padding: 0;
+  transition: var(--transition);
+}
+
+.modal-x-btn:hover {
+  color: #ff0000;
+}
+
+@media (max-width : 720px) {
+  .input-bel-frm {
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .edit-btn,
+  .del-btn {
+    width: auto;
+  }
+
+  .todo-list {
+    width: 90%;
+  }
+}
+
+@media (max-width : 500px) {
+  .input-btn {
+    padding: 12px 12px;
+  }
+
+  .todo-list {
+    width: 100%;
+  }
+}

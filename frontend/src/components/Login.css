@@ -1,0 +1,68 @@
+/* ⭐ Съобщение - без иконка, само текст */
+.registration-message {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  animation:
+    slideDown 0.5s ease,
+    /* появяване */
+    fadeOut 2s ease 10s forwards;
+  /* избледняване */
+  background: #d4edda;
+  color: #155724;
+  border: 2px solid #28a745;
+}
+
+/* За грешка - променяме цветовете */
+.registration-message.error {
+  background: #f8d7da;
+  color: #721c24;
+  border-color: #dc3545;
+}
+
+.registration-message-text {
+  flex: 1;
+}
+
+.registration-message-close {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+  padding: 0 5px;
+}
+
+.registration-message-close:hover {
+  opacity: 1;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/*  Анимация за избледняване */
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

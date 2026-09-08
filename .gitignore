@@ -1,0 +1,25 @@
+# Node modules
+backend/node_modules/
+frontend/node_modules/
+
+# Environment variables (важни!)
+backend/.env
+frontend/.env
+backend/.env.production
+frontend/.env.production
+
+# SSL certificates
+backend/*.pem
+backend/*.key
+
+# Build folders
+frontend/dist/
+frontend/build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db

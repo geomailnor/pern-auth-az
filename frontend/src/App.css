@@ -1,0 +1,657 @@
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px var(--card) inset;
+  -webkit-text-fill-color: var(--text);
+}
+
+nav {
+  border-bottom: 1px solid #b1b1b1;
+  background-color: antiquewhite;
+  padding: 4px 0;
+  margin-bottom: 12px;
+}
+
+.navbar-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-item {
+  margin: 5px 15px;
+}
+
+.header-item a {
+  font-weight: 500;
+  text-decoration: none;
+  color: hsl(0, 0%, 18%);
+  transition: all 0.3s;
+}
+
+.header-item a:hover {
+  color: hsl(0, 0%, 0%);
+}
+
+.page-title {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.register-form,
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vsichko-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg);
+  width: 45vw;
+  min-width: 270px;
+  max-width: 500px;
+  padding: 15px 25px;
+  border: 1px solid rgba(168, 168, 168, 0.5);
+  border-radius: 12px;
+  box-shadow: 0 0 12px 4px rgba(214, 214, 214, 0.5);
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+.input-wrapper input {
+  width: 100%;
+  margin: 5px 0 12px 0;
+  /* margin: 5px 10px 12px 0px; */
+  padding: 5px 10px;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  outline: none;
+  transition: var(--transition);
+  height: 2.5rem;
+}
+
+.pass-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* .pass-wrapper .user-password {
+  width: 100%;
+  margin: 5px 10px 12px 0px;
+  padding-right: 50px;
+} */
+
+.show-pass-btn,
+.show-login-btn {
+  position: absolute;
+  /* left: calc(100% - 40px);
+  top: 21%; */
+  right: 12px;
+  top: 45%;
+  transform: translateY(-50%);
+
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.show-login-btn:hover,
+.show-pass-btn:hover {
+  opacity: 0.9;
+}
+
+.remember-me-div {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+#rememberMe {
+  width: 16px;
+  height: 16px;
+  margin: 0 8px 0 0;
+  cursor: pointer;
+}
+
+#rememberMe:focus-visible {
+  outline: 1px solid var(--primary);
+}
+
+.remember-me-div label {
+  text-wrap: nowrap;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Показва красива рамка САМО при навигация с клавиатура (Tab) */
+.show-pass-btn:focus-visible,
+.show-login-btn:focus-visible {
+  outline: 2px solid #63aeff;
+  outline-offset: 1px;
+  border-radius: 4px;
+}
+
+.input-wrapper label {
+  color: var(--text);
+}
+
+.input-btn,
+.login-btn {
+  color: var(--card);
+  border: none;
+  background-color: var(--primary);
+  padding: 9px 24px;
+  margin: 15px 0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.input-btn:hover,
+.login-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(94, 106, 210, 0.3);
+}
+
+.input-btn:active,
+.login-btn:active {
+  transform: scale(0.97);
+}
+
+/* ===== ПРЕМАХВАНЕ НА СТАНДАРТНИЯ OUTLINE ===== */
+:focus-visible {
+  outline: none;
+}
+
+.input-btn:focus-visible,
+.login-btn:focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.3);
+}
+
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: hsl(9, 38%, 40%);
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+  text-decoration: none;
+}
+
+.logout-btn:hover {
+  /* text-decoration: underline; */
+  color: hsl(9, 61%, 45%);
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================ */
+/* СТИЛОВЕ ЗА ПРОФИЛА */
+
+/* ===== ПРОФИЛ ===== */
+.profile-container {
+  width: 100%;
+  max-width: 550px;
+  /* Същата ширина като auth-container */
+  margin: 0 auto;
+  /* Центриране */
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.profile-title {
+  font-size: 1.8rem;
+  color: var(--text);
+  margin-bottom: 24px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.profile-card {
+  width: 100%;
+  background: var(--card);
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e8e8e8;
+  transition: var(--transition);
+}
+
+.profile-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.profile-card h3 {
+  color: var(--text);
+  margin-bottom: 18px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Информация за потребителя */
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-field {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  gap: 30px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.profile-field:last-of-type {
+  border-bottom: none;
+}
+
+.profile-field label {
+  color: var(--text-light);
+  font-weight: 500;
+  font-size: 0.9rem;
+  min-width: 60px;
+  flex-shrink: 0;
+  /* 👈 За да не се свива */
+}
+
+.profile-field p {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.profile-edit-btn {
+  margin-top: 16px;
+  padding: 10px 20px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: var(--transition);
+  align-self: flex-start;
+  white-space: nowrap;
+}
+
+.profile-edit-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(94, 106, 210, 0.3);
+}
+
+.profile-edit-btn:active {
+  transform: scale(0.97);
+}
+
+/* Форма за редактиране */
+.profile-form .form-group {
+  margin-bottom: 16px;
+}
+
+.profile-form label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--text);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.profile-form input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: var(--transition);
+  background: #fafafa;
+}
+
+.profile-form input:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(94, 106, 210, 0.1);
+  background: white;
+}
+
+/* Бутони във формите */
+.save-btn {
+  padding: 10px 28px;
+  background: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.save-btn:hover {
+  background: #16a34a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.save-btn:active {
+  transform: scale(0.97);
+}
+
+.cancel-btn {
+  padding: 10px 28px;
+  margin-left: 12px;
+  background: #dedede;
+  color: var(--text);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.cancel-btn:hover {
+  background: hsl(0, 0%, 77%);
+  transform: translateY(-2px);
+}
+
+/* Бутон за смяна на парола */
+.password-btn {
+  padding: 10px 28px;
+  background: hsl(38, 92%, 35%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: var(--transition);
+  width: 100%;
+  white-space: nowrap;
+}
+
+.password-btn:hover {
+  background: hsl(38, 92%, 25%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.password-btn:active {
+  transform: scale(0.97);
+}
+
+/* Опасна зона */
+.danger-card {
+  border-color: #fecaca;
+  background: #fef2f2;
+}
+
+.danger-card h3 {
+  color: #dc2626;
+}
+
+.danger-text {
+  color: #991b1b;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.danger-btn {
+  padding: 10px 28px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.danger-btn:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.danger-btn:active {
+  transform: scale(0.97);
+}
+
+/* Потвърждение за изтриване */
+.delete-confirm {
+  background: #fff7ed;
+  padding: 16px 20px;
+  border-radius: 8px;
+  border: 1px solid #fed7aa;
+}
+
+.confirm-text {
+  color: #9a3412;
+  font-weight: 500;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+
+.delete-confirm-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.confirm-yes {
+  background: #dc2626 !important;
+}
+
+.confirm-yes:hover {
+  background: #b91c1c !important;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3) !important;
+}
+
+/* Зареждане */
+.profile-loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-light);
+  font-size: 1.1rem;
+}
+
+/* ============================================================ */
+/* 🟢 СТИЛОВЕ ЗА МОДАЛ (добавени за Profile) */
+/* ============================================================ */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: modalFadeIn 0.3s ease;
+}
+
+.modal-frm {
+  position: relative;
+  background: var(--card);
+  padding: 30px 35px;
+  border-radius: 12px;
+  width: 70%;
+  max-width: 500px;
+  min-width: 350px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  border: 1px solid #e8e8e8;
+  animation: modalSlideIn 0.3s ease;
+}
+
+.modal-frm h2 {
+  color: var(--text);
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #666;
+  line-height: 1;
+  padding: 0;
+  transition: var(--transition);
+}
+
+.modal-close-btn:hover {
+  color: #dc2626;
+  transform: rotate(90deg);
+}
+
+/* Стилове за input в модала */
+.input-modal {
+  width: 100%;
+  padding: 12px 16px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: var(--transition);
+  background: #fafafa;
+  box-sizing: border-box;
+}
+
+.input-modal:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(94, 106, 210, 0.1);
+  background: white;
+}
+
+/* Бутони в модала */
+.modal-btns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.modal-btns .save-btn {
+  padding: 12px 36px;
+  background: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: var(--transition);
+  min-width: 120px;
+}
+
+.modal-btns .save-btn:hover {
+  background: #16a34a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.modal-btns .save-btn:active {
+  transform: scale(0.97);
+}
+
+.modal-btns .cancel-btn {
+  padding: 12px 36px;
+  background: #e5e7eb;
+  color: var(--text);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: var(--transition);
+  min-width: 120px;
+}
+
+.modal-btns .cancel-btn:hover {
+  background: #d1d5db;
+  transform: translateY(-2px);
+}
+
+.modal-btns .cancel-btn:active {
+  transform: scale(0.97);
+}
+
+/* Анимации за модала */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
