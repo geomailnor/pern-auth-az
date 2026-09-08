@@ -4,7 +4,7 @@ import axios from "axios";
 import EditBel from "./EditBel.jsx";
 import { useAuth } from '../AuthContext.jsx';
 import { useLocation } from "react-router-dom";
-
+import { API_URL } from '../config';
 
 function ListBels() {
   const location = useLocation();
@@ -13,7 +13,7 @@ function ListBels() {
 
   async function deleteTodo(id) {
     try {
-      await axios.delete(`http://localhost:5000/bels/${id}?user_id=${user.user_id}`);
+      await axios.delete(`${API_URL}/bels/${id}?user_id=${user.user_id}`);
       setBels(bels.filter(bel => bel.bel_id !== id));
     } catch (error) {
       console.error(error.message);
@@ -26,7 +26,7 @@ function ListBels() {
   useEffect(() => {
     async function getTodo() {
       try {
-        const response = await axios.get(`http://localhost:5000/bels?user_id=${user.user_id}`);
+        const response = await axios.get(`${API_URL}/bels?user_id=${user.user_id}`);
         setBels(response.data);
       } catch (error) {
         console.error(error.message);

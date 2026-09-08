@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import oko1 from '../assets/oko1.png';
 import oko2 from '../assets/oko2.png';
 import Spinner from "./Spinner";
+import { API_URL } from '../config';
 import './Login.css';
 
 function Login() {
@@ -19,7 +20,7 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const API_URL = 'http://localhost:5000/api';
+
   // ⭐ Четем съобщението от URL параметър при зареждане
   const [message, setMessage] = useState(() => {
     const params = new URLSearchParams(location.search);

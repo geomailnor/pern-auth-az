@@ -145,6 +145,9 @@ router.post('/login', async (req, res) => {
 router.get('/verify-email/:token', async (req, res) => {
   try {
     const { token } = req.params;
+
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+
     // 1. Търсим потребителя по токен
     const result = await pool.query(
       'SELECT * FROM users WHERE verification_token = $1',
@@ -161,12 +164,12 @@ router.get('/verify-email/:token', async (req, res) => {
       if (oldResult.rows.length > 0) {
         // Вече е потвърден
         return res.redirect(
-          `http://localhost:5173/login?message=✅ Имейлът вече е потвърден! Моля, влезте.`
+          `${frontendUrl}/login?message=✅ Имейлът вече е потвърден! Моля, влезте.`
         );
       }
       // Ако няма запис - невалиден токен
       return res.redirect(
-        `http://localhost:5173/login?message=❌ Невалиден линк за потвърждение.`
+        `${frontendUrl}/login?message=❌ Невалиден линк за потвърждение.`
       );
     }
 
@@ -175,14 +178,14 @@ router.get('/verify-email/:token', async (req, res) => {
     // 3. Проверяваме дали токенът е изтекъл
     if (user.verification_token_expiry && new Date() > user.verification_token_expiry) {
       return res.redirect(
-        `http://localhost:5173/login?message=❌ Линкът за потвърждение е изтекъл. Моля, регистрирайте се отново.`
+        `${frontendUrl}/login?message=❌ Линкът за потвърждение е изтекъл. Моля, регистрирайте се отново.`
       );
     }
 
     // 4. Ако вече е потвърден - пренасочваме към Login с успех
     if (user.is_verified) {
       return res.redirect(
-        `http://localhost:5173/login?message=✅ Имейлът вече е потвърден! Моля, влезте.`
+        `${frontendUrl}/login?message=✅ Имейлът вече е потвърден! Моля, влезте.`
       );
     }
 
@@ -194,13 +197,13 @@ router.get('/verify-email/:token', async (req, res) => {
 
     // 6. Пренасочваме към Login с успех
     res.redirect(
-      `http://localhost:5173/login?message=✅ Имейлът е потвърден успешно! Моля, влезте.`
+      `${frontendUrl}/login?message=✅ Имейлът е потвърден успешно! Моля, влезте.`
     );
 
   } catch (error) {
     console.error('❌ Грешка при потвърждение:', error);
     res.redirect(
-      `http://localhost:5173/login?message=❌ Грешка при потвърждение. Моля, опитайте отново.`
+      `${frontendUrl}/login?message=❌ Грешка при потвърждение. Моля, опитайте отново.`
     );
   }
 });

@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import oko1 from '../assets/oko1.png';
 import oko2 from '../assets/oko2.png';
 import Spinner from "./Spinner";
+import { API_URL } from '../config';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -18,7 +19,7 @@ function Register() {
   const { updateUser } = useAuth();
   const navigate = useNavigate();
 
-  const API_URL = 'http://localhost:5000/api';
+
 
   useEffect(() => {
     passwordRef.current?.focus();

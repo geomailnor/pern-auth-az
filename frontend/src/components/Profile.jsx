@@ -6,8 +6,7 @@ import toast from 'react-hot-toast';
 import { handleLogout } from "../utils/Logout";
 import oko1 from '../assets/oko1.png';
 import oko2 from '../assets/oko2.png';
-
-const API_URL = 'http://localhost:5000/api';
+import { API_URL } from '../config';
 
 function Profile() {
   const navigate = useNavigate();

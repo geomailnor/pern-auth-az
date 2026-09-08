@@ -2,6 +2,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useAuth } from '../AuthContext.jsx';
+import { API_URL } from '../config';
 
 
 function EditBel({ bel, updateBelLocal }) {
@@ -17,7 +18,7 @@ function EditBel({ bel, updateBelLocal }) {
     e.preventDefault();
     try {
       const body = { description: description };
-      await axios.put(`http://localhost:5000/bels/${bel.bel_id}?user_id=${user.user_id}`, body);
+      await axios.put(`${API_URL}/bels/${bel.bel_id}?user_id=${user.user_id}`, body);
       setIsModal(false);
       updateBelLocal(bel.bel_id, description);
 

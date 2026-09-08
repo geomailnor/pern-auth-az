@@ -136,5 +136,5 @@ app.delete('/bels/:id', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Сървърът работи на http://localhost:${PORT}`);
+  console.log(`✅ Сървърът работи на порт ${PORT}`);
 });

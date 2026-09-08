@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useAuth } from '../AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../config';
 
 function InputBel() {
 
@@ -15,7 +16,7 @@ function InputBel() {
 
     try {
       const body = { description: description, user_id: user.user_id }
-      await axios.post('http://localhost:5000/bels', body);
+      await axios.post(`${API_URL}/bels`, body);
 
       setDescription(''); // ← Изчиства полето
       navigate('/tasks');

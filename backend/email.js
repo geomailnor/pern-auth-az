@@ -19,7 +19,8 @@ const transporter = nodemailer.createTransport({
 
 // 2. Функция за изпращане на верификационен имейл
 export const sendVerificationEmail = async (email, token) => {
-  const verificationLink = `http://localhost:5000/api/auth/verify-email/${token}`;
+  const baseUrl = process.env.BASE_URL || 'http://localhost:5000';
+  const verificationLink = `${baseUrl}/api/auth/verify-email/${token}`;
 
   const mailOptions = {
     from: process.env.SMTP_USER,
