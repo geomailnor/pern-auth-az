@@ -7,16 +7,17 @@ dotenv.config();
 // ⭐ ПРОМЯНА: Добавяме настройка за семейството на IP адресите
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: process.env.SMTP_PORT || 587,
-  secure: false,
+  port: process.env.SMTP_PORT || 465,   // ⭐ Промяна на порт
+  secure: true,                          // ⭐ Промяна на SSL
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
-  // ⭐ НОВО: Принуждаваме IPv4
-  family: 4,  // <-- Това е ключовото!
+  family: 4,                             // ⭐ Принудително IPv4
+  tls: {
+    rejectUnauthorized: false            // ⭐ За тестове
+  }
 });
-
 // 2. Функция за изпращане на верификационен имейл
 export const sendVerificationEmail = async (email, token) => {
   const baseUrl = process.env.BASE_URL || 'http://localhost:5000';
