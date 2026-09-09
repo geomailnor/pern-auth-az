@@ -51,7 +51,7 @@ function Profile() {
       localStorage.setItem('auth_user', updatedUser.name);
       localStorage.setItem('auth_email', updatedUser.email);
 
-      // 👇 Обновяваме Context
+      // 👇  Обновяваме Context
       updateUser({
         name: updatedUser.name,
         email: updatedUser.email
