@@ -1,46 +1,51 @@
-import nodemailer from 'nodemailer';
+import axios from 'axios';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-// 1. Създаваме транспортер (който ще изпраща имейлите)
-// ⭐ ПРОМЯНА: Добавяме настройка за семейството на IP адресите
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: process.env.SMTP_PORT || 465,   // ⭐ Промяна на порт
-  secure: true,                          // ⭐ Промяна на SSL
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-  family: 4,                             // ⭐ Принудително IPv4
-  tls: {
-    rejectUnauthorized: false            // ⭐ За тестове
-  }
-});
-// 2. Функция за изпращане на верификационен имейл
+// ⭐ Brevo API конфигурация
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
+const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
+
+// ⭐ Функция за изпращане на верификационен имейл чрез Brevo
 export const sendVerificationEmail = async (email, token) => {
   const baseUrl = process.env.BASE_URL || 'http://localhost:5000';
   const verificationLink = `${baseUrl}/api/auth/verify-email/${token}`;
 
-  const mailOptions = {
-    from: process.env.SMTP_USER,
-    to: email,
+  // ⭐ Данни за имейла според изискванията на Brevo API
+  const emailData = {
+    sender: {
+      name: 'Моите бележки',
+      email: process.env.SMTP_USER || 'geomailnor@gmail.com'
+    },
+    to: [{ email: email }],
     subject: 'Потвърдете своя имейл адрес',
-    html: `
+    htmlContent: `
       <h1>Добре дошли в "Моите бележки"!</h1>
-      <p>Моля, кликнете върху линка, за да потвърдите своя имейл адрес: </p>
+      <p>Моля, кликнете върху линка, за да потвърдите своя имейл адрес:</p>
       <a href="${verificationLink}">${verificationLink}</a>
       <p>Този линк е валиден 24 часа.</p>
       <p>Ако не сте се регистрирали, игнорирайте това съобщение.</p>
-    `,
+    `
   };
 
   try {
-    await transporter.sendMail(mailOptions);
-    console.log(`✅ Имейл за верификация изпратен на ${email}`);
+    const response = await axios.post(BREVO_API_URL, emailData, {
+      headers: {
+        'Content-Type': 'application/json',
+        'api-key': BREVO_API_KEY
+      }
+    });
+
+    console.log(`✅ Имейл за верификация изпратен на ${email} чрез Brevo`);
+    return response.data;
   } catch (error) {
-    console.error('❌ Грешка при изпращане на имейл:', error);
+    console.error('❌ Грешка при изпращане на имейл чрез Brevo:');
+    if (error.response) {
+      console.error('📝 Детайли от Brevo:', error.response.data);
+    } else {
+      console.error(error.message);
+    }
     throw new Error('Неуспешно изпращане на имейл');
   }
 };
