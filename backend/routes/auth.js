@@ -324,47 +324,5 @@ router.delete('/me', authenticate, async (req, res) => {
     res.status(500).json({ message: 'Грешка в сървъра' });
   }
 });
-// ✅ ПОТВЪРЖДАВАНЕ НА ИМЕЙЛ
-router.get('/verify-email/:token', async (req, res) => {
-  try {
-    const { token } = req.params;
-
-    // 1. Търсим потребител с този токен
-    const result = await pool.query(
-      'SELECT * FROM users WHERE verification_token = $1',
-      [token]
-    );
-
-    // 2. Ако няма такъв токен - връщаме обща грешка
-    if (result.rows.length === 0) {
-      return res.status(400).json({
-        message: 'Невалиден или изтекъл линк за потвърждение'
-      });
-    }
-
-    const user = result.rows[0];
-
-    // 3. Ако вече е потвърден - просто казваме, че е успешно (без излишни детайли)
-    if (user.is_verified) {
-      return res.json({
-        message: '✅ Имейлът е потвърден успешно!'
-      });
-    }
-
-    // 4. Потвърждаваме имейла
-    await pool.query(
-      'UPDATE users SET is_verified = TRUE, verification_token = NULL WHERE user_id = $1',
-      [user.user_id]
-    );
-
-    res.json({
-      message: '✅ Имейлът е потвърден успешно!'
-    });
-
-  } catch (error) {
-    console.error('❌ Грешка при потвърждение на имейл:', error);
-    res.status(500).json({ message: 'Грешка в сървъра' });
-  }
-});
 
 export default router;
