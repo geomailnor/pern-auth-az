@@ -143,11 +143,11 @@ router.post('/login', async (req, res) => {
 
 // 👓 МАРШРУТ ✅ ПОТВЪРЖДАВАНЕ НА ИМЕЙЛ
 router.get('/verify-email/:token', async (req, res) => {
+
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+
   try {
     const { token } = req.params;
-
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-
     // 1. Търсим потребителя по токен
     const result = await pool.query(
       'SELECT * FROM users WHERE verification_token = $1',
