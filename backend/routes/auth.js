@@ -148,25 +148,6 @@ router.get('/verify-email/:token', async (req, res) => {
 
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 
-    // ⭐ Помощна функция за пренасочване чрез HTML (работи с имейл клиенти)
-    const redirectWithHtml = (message) => {
-      const url = `${frontendUrl}/login?message=${encodeURIComponent(message)}`;
-      return res.send(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <meta charset="UTF-8">
-            <title>Пренасочване...</title>
-            <meta http-equiv="refresh" content="0; url=${url}">
-          </head>
-          <body>
-            <p>Моля, изчакайте... Ако не бъдете пренасочени автоматично, <a href="${url}">кликнете тук</a>.</p>
-            <script>window.location.href = "${url}";</script>
-          </body>
-        </html>
-      `);
-    };
-
     // 1. Търсим потребителя по токен
     const result = await pool.query(
       'SELECT * FROM users WHERE verification_token = $1',
@@ -175,53 +156,55 @@ router.get('/verify-email/:token', async (req, res) => {
 
     // 2. Ако няма такъв токен
     if (result.rows.length === 0) {
+      // Проверяваме дали този токен не е стар (вече потвърден)
       const oldResult = await pool.query(
         'SELECT * FROM users WHERE old_verification_token = $1',
         [token]
       );
       if (oldResult.rows.length > 0) {
-        return redirectWithHtml('✅ Имейлът вече е потвърден! Моля, влезте.');
+        // Вече е потвърден
+        return res.redirect(
+          `${frontendUrl}/login?message=✅ Имейлът вече е потвърден! Моля, влезте.`
+        );
       }
-      return redirectWithHtml('❌ Невалиден линк за потвърждение.');
+      // Ако няма запис - невалиден токен
+      return res.redirect(
+        `${frontendUrl}/login?message=❌ Невалиден линк за потвърждение.`
+      );
     }
 
     const user = result.rows[0];
 
     // 3. Проверяваме дали токенът е изтекъл
     if (user.verification_token_expiry && new Date() > user.verification_token_expiry) {
-      return redirectWithHtml('❌ Линкът за потвърждение е изтекъл. Моля, регистрирайте се отново.');
+      return res.redirect(
+        `${frontendUrl}/login?message=❌ Линкът за потвърждение е изтекъл. Моля, регистрирайте се отново.`
+      );
     }
 
-    // 4. Ако вече е потвърден
+    // 4. Ако вече е потвърден - пренасочваме към Login с успех
     if (user.is_verified) {
-      return redirectWithHtml('✅ Имейлът вече е потвърден! Моля, влезте.');
+      return res.redirect(
+        `${frontendUrl}/login?message=✅ Имейлът вече е потвърден! Моля, влезте.`
+      );
     }
 
-    // 5. Потвърждаваме имейла
+    // 5. Потвърждаваме имейла  - запазваме токена в old_verification_token
     await pool.query(
       'UPDATE users SET is_verified = TRUE, verification_token = NULL, old_verification_token = verification_token, verification_token_expiry = NULL WHERE user_id = $1',
       [user.user_id]
     );
 
-    // 6. Пренасочваме с успех
-    return redirectWithHtml('✅ Имейлът е потвърден успешно! Моля, влезте.');
+    // 6. Пренасочваме към Login с успех
+    res.redirect(
+      `${frontendUrl}/login?message=✅ Имейлът е потвърден успешно! Моля, влезте.`
+    );
 
   } catch (error) {
     console.error('❌ Грешка при потвърждение:', error);
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-    const url = `${frontendUrl}/login?message=${encodeURIComponent('❌ Грешка при потвърждение. Моля, опитайте отново.')}`;
-    return res.send(`
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="UTF-8">
-          <meta http-equiv="refresh" content="0; url=${url}">
-        </head>
-        <body>
-          <script>window.location.href = "${url}";</script>
-        </body>
-      </html>
-    `);
+    res.redirect(
+      `${frontendUrl}/login?message=❌ Грешка при потвърждение. Моля, опитайте отново.`
+    );
   }
 });
 
