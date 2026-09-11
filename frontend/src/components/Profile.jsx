@@ -51,10 +51,14 @@ function Profile() {
       localStorage.setItem('auth_user', updatedUser.name);
       localStorage.setItem('auth_email', updatedUser.email);
 
-      // 👇  Обновяваме Context
+      // ⭐ Вземаме user_id от localStorage (за да не се загуби)
+      const userId = localStorage.getItem('auth_user_id') || sessionStorage.getItem('auth_user_id');
+
+      // 👇 Обновяваме - ВКЛЮЧИТЕЛНО user_id
       updateUser({
         name: updatedUser.name,
-        email: updatedUser.email
+        email: updatedUser.email,
+        user_id: userId
       });
 
       setShowEditModal(false);
