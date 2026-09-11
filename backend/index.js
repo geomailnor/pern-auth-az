@@ -28,7 +28,7 @@ app.use('/api/auth', authRoutes);
 // =============================================
 
 // Create a bel
-app.post('/bels', async (req, res) => {
+app.post('/api/bels', async (req, res) => {
   try {
     const { description, user_id } = req.body;
     const newBel = await pool.query(
@@ -43,7 +43,7 @@ app.post('/bels', async (req, res) => {
 });
 
 // Get all bels
-app.get('/bels', async (req, res) => {
+app.get('/api/bels', async (req, res) => {
   try {
     const { user_id } = req.query;
     if (!user_id) {
@@ -61,7 +61,7 @@ app.get('/bels', async (req, res) => {
 });
 
 // Get a bel
-app.get('/bels/:id', async (req, res) => {
+app.get('/api/bels/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { user_id } = req.query;
@@ -83,7 +83,7 @@ app.get('/bels/:id', async (req, res) => {
 });
 
 // Update a bel
-app.put('/bels/:id', async (req, res) => {
+app.put('/api/bels/:id', async (req, res) => {
   try {
     const { description } = req.body;
     const { id } = req.params;
@@ -110,7 +110,7 @@ app.put('/bels/:id', async (req, res) => {
 });
 
 // Delete a bel
-app.delete('/bels/:id', async (req, res) => {
+app.delete('/api/bels/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { user_id } = req.query;
