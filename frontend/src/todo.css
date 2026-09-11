@@ -150,6 +150,11 @@ body {
   width: 100%;
 }
 
+#edit-email {
+  opacity: 0.6;
+  cursor: 'not-allowed';
+}
+
 /* ===== БУТОНИ ===== */
 .del-btn,
 .edit-btn {

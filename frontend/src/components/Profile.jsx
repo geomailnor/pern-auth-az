@@ -44,7 +44,7 @@ function Profile() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
-      const response = await axios.put(`${API_URL}/auth/me`, editFormData, {
+      const response = await axios.put(`${API_URL}/auth/me`, { name: editFormData.name }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const updatedUser = response.data;
@@ -259,9 +259,7 @@ function Profile() {
                   className="input input-modal"
                   type="email"
                   value={editFormData.email}
-                  onChange={(e) => setEditFormData({ ...editFormData, email: e.target.value })}
-                  placeholder="Въведете имейл..."
-                  required
+                  disabled
                 />
               </div>
 

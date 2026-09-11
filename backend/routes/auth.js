@@ -231,27 +231,18 @@ router.get('/me', authenticate, async (req, res) => {
 // 📝 ОБНОВЯВАНЕ НА ПРОФИЛ
 router.put('/me', authenticate, async (req, res) => {
   try {
-    const { name, email } = req.body;
+    const { name } = req.body;
     const userId = req.user.user_id;
 
-    // Проверка дали имейлът не е зает от друг потребител
-    const emailExists = await pool.query(
-      'SELECT * FROM users WHERE email = $1 AND user_id != $2',
-      [email, userId]
-    );
-
-    if (emailExists.rows.length > 0) {
-      return res.status(400).json({ message: 'Този имейл вече се използва от друг потребител' });
-    }
-
     const result = await pool.query(
-      'UPDATE users SET username = $1, email = $2 WHERE user_id = $3 RETURNING user_id, username, email',
-      [name, email, userId]
+      'UPDATE users SET username = $1 WHERE user_id = $2 RETURNING user_id, username, email',
+      [name, userId]
     );
 
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Потребителят не е намерен' });
     }
+
     res.json({
       name: result.rows[0].username,
       email: result.rows[0].email
