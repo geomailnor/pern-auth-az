@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import pool from '../db.js';
 import crypto from 'crypto';
-import { sendVerificationEmail } from '../email.js';
+import { sendVerificationEmail, sendResetPasswordEmail } from '../email.js';
 
 // Проверка за логнати потребители (в края)
 import { authenticate } from '../middleware/authMiddleware.js';
@@ -337,4 +337,58 @@ router.delete('/me', authenticate, async (req, res) => {
   }
 });
 
+// 🔑 ЗАБРАВЕНА ПАРОЛА - изпращане на линк за ресет
+router.post('/forgot-password', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // 1. Проверка дали има имейл
+    if (!email) {
+      return res.status(400).json({ message: 'Моля, въведете имейл' });
+    }
+
+    // 2. Търсим потребителя по имейл
+    const result = await pool.query(
+      'SELECT * FROM users WHERE email = $1',
+      [email]
+    );
+
+    // 3. Ако няма такъв потребител - връщаме общо съобщение (за сигурност)
+    if (result.rows.length === 0) {
+      return res.json({
+        message: 'Ако този имейл съществува, ще получите линк за възстановяване.'
+      });
+    }
+
+    const user = result.rows[0];
+
+    // 4. Генерираме токен за ресет
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 час
+
+    // 5. Запазваме токена в базата
+    await pool.query(
+      'UPDATE users SET reset_token = $1, reset_token_expiry = $2 WHERE user_id = $3',
+      [resetToken, resetTokenExpiry, user.user_id]
+    );
+
+    // 6. Изпращаме имейл
+    try {
+      await sendResetPasswordEmail(user.email, resetToken);
+      console.log(`✅ Имейл за ресет изпратен на ${user.email}`);
+    } catch (emailError) {
+      console.error('❌ Грешка при изпращане на имейл за ресет:', emailError);
+      // Не спираме, за да не разкрием дали имейлът съществува
+    }
+
+    // 7. Връщаме общо съобщение
+    res.json({
+      message: 'Ако този имейл съществува, ще получите линк за възстановяване.'
+    });
+
+  } catch (error) {
+    console.error('❌ Грешка при forgot-password:', error);
+    res.status(500).json({ message: 'Грешка в сървъра' });
+  }
+});
 export default router;
