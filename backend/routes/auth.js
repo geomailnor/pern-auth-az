@@ -234,6 +234,11 @@ router.put('/me', authenticate, async (req, res) => {
     const { name } = req.body;
     const userId = req.user.user_id;
 
+    // Проверка дали името вече е заето
+    const nameExist = await pool.query('SELECT * FROM users WHERE username = $1 AND user_id != $2', [name, userId]);
+    if (nameExist.rows.length > 0) {
+      return res.status(400).json({ message: 'Това потребителско име вече е заето' });
+    }
     const result = await pool.query(
       'UPDATE users SET username = $1 WHERE user_id = $2 RETURNING user_id, username, email',
       [name, userId]
@@ -249,6 +254,12 @@ router.put('/me', authenticate, async (req, res) => {
     });
   } catch (error) {
     console.error('❌ Грешка при обновяване на профил:', error);
+    // ДОПЪЛНИТЕЛНА ПРОВЕРКА: Ако все пак двама едновременно...
+    if (error.code === '23505') {
+      return res.status(400).json({
+        message: 'Това потребителско име вече е заето'
+      });
+    }
     res.status(500).json({ message: 'Грешка в сървъра' });
   }
 });
