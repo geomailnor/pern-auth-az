@@ -27,7 +27,7 @@ function ResetPassword() {
 
     setIsLoading(true);
     try {
-      const response = await axios.post(
+      await axios.post(
         `${API_URL}/auth/reset-password/${token}`,
         { newPassword }
       );
