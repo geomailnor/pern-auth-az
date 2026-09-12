@@ -32,8 +32,6 @@ function ResetPassword() {
         { newPassword }
       );
 
-      toast.success(response.data.message || '✅ Паролата е променена успешно!');
-
       setTimeout(() => {
         navigate('/login?message=✅ Паролата е променена успешно! Моля, влезте с новата парола.');
       }, 1500);
