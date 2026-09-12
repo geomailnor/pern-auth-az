@@ -9,6 +9,7 @@ import { Toaster } from 'react-hot-toast';
 import InputBel from './components/InputBel';
 import ListBels from './components/ListBels';
 import ResetPassword from './components/ResetPassword';
+import ForgotPassword from './components/ForgotPassword';
 import './App.css'; // Това стилизира навбара и login и register
 import './todo.css'; // Това стил. списъка
 
@@ -25,6 +26,7 @@ function App() {
               <Route path='/' element={<ProtectedRoute><Navigate to="/tasks" /></ProtectedRoute>} />
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
+              <Route path='/forgot-password' element={<ForgotPassword />} />
               <Route path="/reset-password/:token" element={<ResetPassword />} />
               <Route path='/tasks' element={<div className='container'><InputBel /><ListBels /></div>} />
               <Route path='/profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />

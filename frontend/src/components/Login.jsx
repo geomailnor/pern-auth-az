@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from '../AuthContext';
 import { useNavigate, useLocation } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import oko1 from '../assets/oko1.png';
 import oko2 from '../assets/oko2.png';
@@ -161,6 +162,10 @@ function Login() {
             />
             <label htmlFor="rememberMe">Запомни ме</label>
           </div>
+        </div>
+
+        <div className="forgot-password-link">
+          <Link to="/forgot-password">Забравена парола?</Link>
         </div>
 
         <button type="submit" className="login-btn" disabled={isLoading}>
