@@ -15,6 +15,16 @@ router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
+    // ⭐ НОВО: Почистване на стари непотвърдени потребители
+    const cleanupResult = await pool.query(`
+      DELETE FROM users 
+      WHERE is_verified = FALSE 
+      AND created_at < NOW() - INTERVAL '2 hours'
+    `);
+
+    if (cleanupResult.rowCount > 0) {
+      console.log(`🗑️ Изтрити ${cleanupResult.rowCount} стари непотвърдени потребители`);
+    }
     // 1. Проверка дали потребителят вече съществува
     const userExists = await pool.query(
       'SELECT * FROM users WHERE email = $1 OR username = $2',
