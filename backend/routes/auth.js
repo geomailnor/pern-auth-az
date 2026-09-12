@@ -391,4 +391,47 @@ router.post('/forgot-password', async (req, res) => {
     res.status(500).json({ message: 'Грешка в сървъра' });
   }
 });
+
+// 🔄 РЕСЕТ НА ПАРОЛА
+router.post('/reset-password/:token', async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { newPassword } = req.body;
+
+    if (!newPassword || newPassword.length < 6) {
+      return res.status(400).json({
+        message: 'Паролата трябва да е поне 6 символа'
+      });
+    }
+
+    const result = await pool.query(
+      'SELECT * FROM users WHERE reset_token = $1 AND reset_token_expiry > NOW()',
+      [token]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(400).json({
+        message: 'Невалиден или изтекъл токен за възстановяване'
+      });
+    }
+
+    const user = result.rows[0];
+
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+
+    await pool.query(
+      'UPDATE users SET password_hash = $1, reset_token = NULL, reset_token_expiry = NULL WHERE user_id = $2',
+      [hashedPassword, user.user_id]
+    );
+
+    res.json({
+      message: '✅ Паролата е променена успешно! Можете да влезете с новата парола.'
+    });
+
+  } catch (error) {
+    console.error('❌ Грешка при ресет на парола:', error);
+    res.status(500).json({ message: 'Грешка в сървъра' });
+  }
+});
 export default router;
