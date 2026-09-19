@@ -68,7 +68,7 @@
   padding: 15px 20px;
   margin-top: 20px;
   margin-bottom: 20px;
-  width: 100%;
+  width: 90%;
 }
 
 .resend-verification p {
@@ -80,6 +80,7 @@
 .resend-form {
   display: flex;
   gap: 8px;
+  width: 100%;
 }
 
 .resend-form input {
