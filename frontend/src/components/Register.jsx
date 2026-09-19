@@ -34,6 +34,10 @@ function Register() {
     if (password.length < 6) {
       newErrors.password = 'Паролата да е поне 6 символа!';
     }
+    // ⭐ НОВО: Проверка дали паролата не е същата като имейла
+    if (password.toLowerCase() === email.toLowerCase()) {
+      newErrors.password = 'Паролата не може да бъде същата като имейла!';
+    }
     if (password !== confirmPass) {
       newErrors.confirmPass = 'Паролите не съвпадат';
     }

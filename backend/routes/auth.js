@@ -36,6 +36,12 @@ router.post('/register', async (req, res) => {
         message: 'Потребител с този имейл или име вече съществува!'
       });
     }
+    // ⭐ НОВО: Проверка дали паролата не е същата като имейла
+    if (password.toLowerCase() === email.toLowerCase()) {
+      return res.status(400).json({
+        message: 'Паролата не може да бъде същата като имейла!'
+      });
+    }
 
     // 2. Хеширане на паролата
     const saltRounds = 10;
