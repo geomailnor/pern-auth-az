@@ -18,6 +18,9 @@ function Login() {
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { updateUser } = useAuth();
+  const [showResend, setShowResend] = useState(false);
+  const [resendEmail, setResendEmail] = useState('');
+  const [resendLoading, setResendLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -90,12 +93,34 @@ function Login() {
 
     } catch (error) {
       console.error(error.message);
-      toast.error(error.response?.data?.message || 'Грешка при влизане');
+      const errorMsg = error.response?.data?.message || 'Грешка при влизане';
+      toast.error(errorMsg);
+
+      // ⭐ Ако грешката е за непотвърден имейл - показваме бутона за повторно изпращане
+      if (error.response?.status === 403 && errorMsg.includes('потвърдете')) {
+        setShowResend(true);
+        setResendEmail(email); // Попълваме имейла автоматично
+      }
     } finally {
       setIsLoading(false);
     }
   }
+  async function handleResendVerification() {
+    setResendLoading(true);
+    try {
+      const response = await axios.post(
+        `${API_URL}/auth/resend-verification`,
+        { email: resendEmail }
+      );
 
+      toast.success(response.data.message);
+      setShowResend(false);
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Грешка при изпращане');
+    } finally {
+      setResendLoading(false);
+    }
+  }
   return (
     <form className="login-form" onSubmit={onSubmitForm}>
       <div className="vsichko-wrapper">
@@ -111,6 +136,36 @@ function Login() {
               onClick={() => setMessage('')}
             >
               &times;
+            </button>
+          </div>
+        )}
+        {/* ⭐ Бутон за повторно изпращане на верификационен имейл */}
+        {showResend && (
+          <div className="resend-verification">
+            <p>Не сте получили имейл за потвърждение?</p>
+            <div className="resend-form">
+              <input
+                type="email"
+                value={resendEmail}
+                onChange={(e) => setResendEmail(e.target.value)}
+                placeholder="Въведете имейла си"
+                className="user-email"
+              />
+              <button
+                type="button"
+                onClick={handleResendVerification}
+                disabled={resendLoading}
+                className="resend-btn"
+              >
+                {resendLoading ? '⏳ Изпращане...' : '📧 Изпрати ми нов линк'}
+              </button>
+            </div>
+            <button
+              type="button"
+              className="resend-close"
+              onClick={() => setShowResend(false)}
+            >
+              ×
             </button>
           </div>
         )}

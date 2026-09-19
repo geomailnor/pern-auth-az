@@ -434,4 +434,64 @@ router.post('/reset-password/:token', async (req, res) => {
     res.status(500).json({ message: 'Грешка в сървъра' });
   }
 });
+// 📧 ПОВТОРНО ИЗПРАЩАНЕ НА ВЕРИФИКАЦИОНЕН ИМЕЙЛ
+router.post('/resend-verification', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: 'Моля, въведете имейл' });
+    }
+
+    // 1. Търсим потребителя
+    const result = await pool.query(
+      'SELECT * FROM users WHERE email = $1',
+      [email]
+    );
+
+    // 2. Ако няма такъв потребител - връщаме общо съобщение
+    if (result.rows.length === 0) {
+      return res.json({
+        message: 'Ако този имейл съществува, ще получите нов линк за потвърждение.'
+      });
+    }
+
+    const user = result.rows[0];
+
+    // 3. Ако вече е потвърден
+    if (user.is_verified) {
+      return res.status(400).json({
+        message: 'Този имейл вече е потвърден. Можете да влезете.'
+      });
+    }
+
+    // 4. Генерираме нов токен (изтриваме стария)
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+    const tokenExpiry = new Date(Date.now() + 1 * 60 * 60 * 1000); // 1 час
+
+    await pool.query(
+      'UPDATE users SET verification_token = $1, verification_token_expiry = $2 WHERE user_id = $3',
+      [verificationToken, tokenExpiry, user.user_id]
+    );
+
+    // 5. Изпращаме нов имейл
+    try {
+      await sendVerificationEmail(user.email, verificationToken);
+      console.log(`✅ Нов верификационен имейл изпратен на ${user.email}`);
+    } catch (emailError) {
+      console.error('❌ Грешка при изпращане:', emailError);
+      return res.status(500).json({
+        message: 'Грешка при изпращане на имейл. Опитайте отново.'
+      });
+    }
+
+    res.json({
+      message: '✅ Изпратихме нов линк за потвърждение. Проверете имейла си.'
+    });
+
+  } catch (error) {
+    console.error('❌ Грешка при resend-verification:', error);
+    res.status(500).json({ message: 'Грешка в сървъра' });
+  }
+});
 export default router;
