@@ -658,6 +658,6 @@ nav {
 
 @media (max-width: 850px) {
   .vsichko-wrapper {
-    width: 100vw;
+    width: 100%;
   }
 }

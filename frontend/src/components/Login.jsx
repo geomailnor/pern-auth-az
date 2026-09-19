@@ -145,6 +145,8 @@ function Login() {
             <p>Не сте получили имейл?</p>
             <div className="resend-form">
               <input
+                id="resend-email"
+                name="resend-email"
                 type="email"
                 value={resendEmail}
                 onChange={(e) => setResendEmail(e.target.value)}
@@ -175,6 +177,7 @@ function Login() {
           <input
             autoFocus
             id="user-post"
+            name="user-post"
             type="text"
             className="user-email"
             value={email}
@@ -185,6 +188,7 @@ function Login() {
           <div className="pass-wrapper">
             <input
               id="user-parola"
+              name="user-parola"
               ref={passwordRef}
               type={pasvisible ? 'text' : 'password'}
               className="user-password"
