@@ -486,7 +486,7 @@ router.post('/resend-verification', async (req, res) => {
     }
 
     res.json({
-      message: '✅ Изпратихме нов линк за потвърждение. Проверете имейла си.'
+      message: 'Изпратихме нов линк за потвърждение. Проверете имейла си.'
     });
 
   } catch (error) {
