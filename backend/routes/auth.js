@@ -425,8 +425,13 @@ router.post('/reset-password/:token', async (req, res) => {
         message: 'Невалиден или изтекъл токен за възстановяване'
       });
     }
-
     const user = result.rows[0];
+    // ⭐ НОВО: Проверка дали новата парола не е същата като имейла
+    if (newPassword.toLowerCase() === user.email.toLowerCase()) {
+      return res.status(400).json({
+        message: 'Паролата не може да бъде същата като имейла!'
+      });
+    }
 
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
