@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { API_URL } from '../config';  // ⭐ '../config' (не '../../config')
+import { API_URL } from '../config';
+import oko1 from '../assets/oko1.png';
+import oko2 from '../assets/oko2.png';
 import './ResetPassword.css';
 
 function ResetPassword() {
@@ -11,6 +13,7 @@ function ResetPassword() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [pasvisible, setPasvisible] = useState(false);
 
   async function onSubmitForm(e) {
     e.preventDefault();
@@ -53,27 +56,43 @@ function ResetPassword() {
 
         <div className="input-wrapper">
           <label htmlFor="new-password">Нова парола:</label>
-          <input
-            id="new-password"
-            type="password"
-            className="user-password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            placeholder="Поне 6 символа"
-            autoFocus
-            required
-          />
+          <div className="pass-wrapper">
+            <input
+              id="new-password"
+              type={pasvisible ? 'text' : 'password'}
+              className="user-password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="Поне 6 символа"
+              autoFocus
+              required
+            />
+            <button
+              type="button"
+              className="show-login-btn"
+              onClick={() => setPasvisible(!pasvisible)}
+            >
+              <img
+                src={pasvisible ? oko2 : oko1}
+                alt={pasvisible ? 'Скрий парола' : 'Покажи парола'}
+                width="22"
+                height="20"
+              />
+            </button>
+          </div>
 
           <label htmlFor="confirm-password">Потвърди паролата:</label>
-          <input
-            id="confirm-password"
-            type="password"
-            className="user-password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Въведете паролата отново"
-            required
-          />
+          <div className="pass-wrapper">
+            <input
+              id="confirm-password"
+              type={pasvisible ? 'text' : 'password'}
+              className="user-password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Въведете паролата отново"
+              required
+            />
+          </div>
         </div>
 
         <button type="submit" className="reset-btn" disabled={isLoading}>

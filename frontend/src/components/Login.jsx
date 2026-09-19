@@ -52,9 +52,6 @@ function Login() {
     if (!email.includes('@') || !email.includes('.')) {
       newErrors.email = 'Въведете валиден имейл';
     }
-    if (password.length < 6) {
-      newErrors.password = 'Паролата да е поне 6 символа!';
-    }
     return newErrors;
   }
 
