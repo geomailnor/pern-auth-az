@@ -22,7 +22,7 @@ html {
 body {
   font-family: Arial, Helvetica, sans-serif;
   width: 100vw;
-  min-width: 400px;
+  min-width: 360px;
   min-height: 100vh;
   overflow-x: auto;
   margin: 0;

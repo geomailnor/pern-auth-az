@@ -142,7 +142,7 @@ function Login() {
         {/* ⭐ Бутон за повторно изпращане на верификационен имейл */}
         {showResend && (
           <div className="resend-verification">
-            <p>Не сте получили имейл за потвърждение?</p>
+            <p>Не сте получили имейл?</p>
             <div className="resend-form">
               <input
                 type="email"
@@ -157,7 +157,7 @@ function Login() {
                 disabled={resendLoading}
                 className="resend-btn"
               >
-                {resendLoading ? '⏳ Изпращане...' : '📧 Изпрати ми нов линк'}
+                {resendLoading ? '⏳ Изпращане...' : 'Нов линк'}
               </button>
             </div>
             <button

@@ -72,7 +72,7 @@
 }
 
 .resend-verification p {
-  margin: 0 0 10px 0;
+  margin: 0 10px 10px 0;
   color: #856404;
   font-size: 14px;
 }
@@ -84,23 +84,27 @@
 }
 
 .resend-form input {
-  flex: 1;
+  flex: 2;
+  min-width: 120px;
   padding: 8px 12px;
   border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 14px;
+  height: 2.5rem;
 }
 
 .resend-btn {
-  padding: 8px 15px;
+  flex: 1;
+  /* min-width: 100px; */
+  border: 1px solid transparent;
+  padding: 8px 12px;
   background: #ffc107;
   color: #856404;
-  border: none;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
-  white-space: nowrap;
+  height: 2.5rem;
 }
 
 .resend-btn:hover:not(:disabled) {
@@ -148,5 +152,19 @@
 
   100% {
     opacity: 0;
+  }
+}
+
+/* ⭐ На малки екрани - вертикално подреждане */
+@media (max-width: 500px) {
+  .resend-form {
+    flex-direction: column;
+  }
+
+  .resend-form input,
+  .resend-btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 100%;
   }
 }
