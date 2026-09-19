@@ -288,7 +288,7 @@ router.put('/password', authenticate, async (req, res) => {
 
     // 1. Намираме потребителя
     const result = await pool.query(
-      'SELECT password_hash FROM users WHERE user_id = $1',
+      'SELECT password_hash, email FROM users WHERE user_id = $1',
       [userId]
     );
 
@@ -297,7 +297,12 @@ router.put('/password', authenticate, async (req, res) => {
     }
 
     const user = result.rows[0];
-
+    // ⭐ НОВО: Проверка дали новата парола не е същата като имейла
+    if (newPassword.toLowerCase() === user.email.toLowerCase()) {
+      return res.status(400).json({
+        message: 'Паролата не може да бъде същата като имейла!'
+      });
+    }
     // 2. Проверяваме текущата парола
     const isValidPassword = await bcrypt.compare(currentPassword, user.password_hash);
     if (!isValidPassword) {

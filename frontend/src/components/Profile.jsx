@@ -80,6 +80,12 @@ function Profile() {
       toast.error('Паролата трябва да е поне 6 символа');
       return;
     }
+    // ⭐ НОВО: Проверка дали новата парола не е същата като имейла
+    const userEmail = localStorage.getItem('auth_email') || sessionStorage.getItem('auth_email');
+    if (passwordData.newPassword.toLowerCase() === userEmail.toLowerCase()) {
+      toast.error('Паролата не може да бъде същата като имейла!');
+      return;
+    }
 
     try {
       const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
