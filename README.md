@@ -2,7 +2,7 @@
 
 PERN stack приложение за управление на задачи с имейл верификация.
 
-## Технологии
+## 🛠️ Технологии
 - Frontend: React + Vite (Vercel)
 - Backend: Node.js + Express (Render)
 - База данни: PostgreSQL (Neon)
@@ -31,15 +31,6 @@ PERN stack приложение за управление на задачи с �
 
 - **Frontend:** https://belezhki.vercel.app
 - **Backend:** https://pern-auth-az.onrender.com
-
-## 🛠️ Технологии
-
-- **Frontend:** React + Vite
-- **Backend:** Node.js + Express
-- **База данни:** PostgreSQL (Neon)
-- **Имейли:** Brevo API
-- **Автентикация:** JWT
-- **Хостинг:** Vercel (frontend), Render (backend)
 
 ### Backend
 cd backend
